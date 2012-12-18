@@ -53,7 +53,7 @@ def loadData():
 
 	return data
 def writeJSONFile():
-	
+
 def readJSONFile(path):
 	#TODO - Try/except handling
 	try:
