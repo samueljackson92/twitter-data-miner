@@ -5,20 +5,27 @@ import json
 import os
 
 def printError(e):
-	print "Error connecting to API: "
+	print "An error occured: "
 	print "\t", e
 
+def writeJSONFile(path, data):
+	try
+		f = open(path, 'w')
+		datastr = json.dumps(data, indent=4, separators=(',', ': '))
+		f.write(json.dumps(datastr))
+		f.close()
+	except IOError, e:
+		raise e
+
 def cacheData(data):
-	datastr = json.dumps(data, indent=4, separators=(',', ': '))
 	metadata["last_id"] = data['search_metadata']['max_id']
-	f = open("data_archive/dump" + str(metadata["last_id"]) + ".json", 'w')
-	f.write(datastr)
-	f.close()
+	directory = "data_archive/"
+
+	#cache the collected data
+	writeJSONFile(directory + "dump" + str(metadata["last_id"] + ".json"), data)
 
 	#update meta data for our search
-	f = open("data_archive/meta.json", 'w')
-	f.write(json.dumps(metadata))
-	f.close()
+	writeJSONFile(directory + "meta.json", metadata)
 
 def searchData():
 	#authenticate onto twitter using twython
@@ -52,7 +59,6 @@ def loadData():
 		data.append(json.loads(datastr))
 
 	return data
-def writeJSONFile():
 
 def readJSONFile(path):
 	#TODO - Try/except handling
