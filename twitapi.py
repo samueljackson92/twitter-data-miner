@@ -52,14 +52,27 @@ def loadData():
 		data.append(json.loads(datastr))
 
 	return data
-
+def writeJSONFile():
+	
 def readJSONFile(path):
 	#TODO - Try/except handling
-	f = open(path, 'r')
-	datastr = f.read()
-	f.close()
-	data = json.loads(datastr)
+	try:
+		f = open(path, 'r')
+		datastr = f.read()
+		f.close()
+		data = json.loads(datastr)
+	except Exception, e:
+		raise e
+
 	return data
+
+def newDataScan(directory):
+	os.makedirs(directory)
+	meta = {}
+	meta["last_id"] = 0
+	meta["min_results"] = 50
+	return meta
+
 
 if __name__ == '__main__':
 	#parse command line options
@@ -68,7 +81,13 @@ if __name__ == '__main__':
 	parser.add_argument('--load', required=False, default=False, help='Load collected data in from the file system.')
 	args = parser.parse_args()
 
-	metadata = readJSONFile("data_archive/meta.json")
+	if not os.path.isfile("data_archive"):
+		metadata = newDataScan("data_archive")
+	else:
+		try:
+			metadata = readJSONFile("data_archive/meta.json")
+		except IOError as e:
+			print "No meta file exists!"
 
 	if args.scan:
 		searchData()
