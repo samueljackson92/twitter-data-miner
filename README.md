@@ -3,6 +3,10 @@ twitter-data-miner
 
 Python application to collect a large sample of tweets from twitter which can then be used for data mining. Uses JSON encoding as the primary data format and stores the results in a MongoDB database.
 
+Requirements
+-------------
+This application requires a running instance of MongoDB. For details on installing and setting up MongoDB on your system see http://www.mongodb.org/. This application also requires the tweepy Twitter API module to be installed with your python distribution.
+
 Configuration
 --------------
 
