@@ -6,7 +6,7 @@ Python application to collect a large sample of tweets from twitter which can th
 Configuration
 --------------
 
-This application loads the settings required to run from a file called config.json
+This application loads the settings required to run from a file called config.json stored in the parent directory. The settings in this file can be configured to match your requirements.
 
 ```json
 
