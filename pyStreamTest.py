@@ -1,5 +1,7 @@
 import tweepy
 import json
+from getpass import getpass
+
 from argparse import ArgumentParser
 from pymongo import MongoClient
 
@@ -62,9 +64,18 @@ if __name__ == "__main__":
 
 	#connect to twitter stream and collect some tweets!
 	if terms:
-		print "Connecting to stream..."
-		streamer = tweepy.Stream(auth=auth, listener=MongoStreamListener(), timeout=60)
-		streamer.filter(None,terms)
+		print "\n\nEnter [x] to quit the stream..."
+		print "Connecting to stream...\n"
+		streamer = tweepy.Stream(auth=auth, listener=MongoStreamListener(terms), timeout=60)
+		streamer.filter(None,terms, async=True)
+
+		while True:
+			opt = getpass()
+			if opt == 'x':
+				break
+
+		print "Quitting strean..."
+		streamer.disconnect()
 	else:
 		parser.print_usage()
 
