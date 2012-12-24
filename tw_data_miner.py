@@ -12,7 +12,7 @@ from mongostreamlistener import MongoStreamListener
 class TwDataMiner(object):
 	def __init__(self):
 		#load configuration settings
-		_config = FileIO().loadJSONFile(".config.json")
+		_config = FileIO().loadJSONFile("config.json")
 
 		self.twData = _config["twitter_auth_data"]
 		self.mongoData = _config["mongo_config"]
