@@ -20,7 +20,10 @@ class TwDataMiner(object):
 		#parse command line options
 		self.parser = ArgumentParser(
 			description="Grabs data from the Twitter API and stores it in a MongoDB Database.")
-		
+
+		self.parser.add_argument('-n', '--name', 
+			type=str, nargs=1, required=True,
+			help='Unique name of the current search.')
 
 		self.parser.add_argument('-t', '--terms', 
 			type=str, nargs='+', required=False, 
@@ -64,13 +67,21 @@ class TwDataMiner(object):
 			elif self.args.terms:	#read in a list of terms from the commandline
 				terms = self.args.terms
 
+			self.db.tweets.insert({
+				"meta_data" : {
+					"terms" : terms,
+					"name"	: self.args.name[0]
+				}
+			})
+
 			#connect to twitter stream and collect some tweets!
 			if terms:
 				print "\n\nEnter [x] to quit the stream..."
 				print "Connecting to stream..."
 
-				listener = MongoStreamListener(self.db, listen=self.args.listen, limit=self.args.count)
-				streamer = MongoStream(auth=self.auth, listener=listener, timeout=60)
+				listener = MongoStreamListener(self.db, 
+					listen=self.args.listen, limit=self.args.count, name=self.args.name[0])
+				streamer = tweepy.Stream(auth=self.auth, listener=listener, timeout=60)
 
 				print "Connected. Filtering tweets...\n"
 				streamer.filter(None,terms, async=True)
