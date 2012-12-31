@@ -5,11 +5,10 @@ Python application to collect a large sample of tweets from twitter which can th
 
 Requirements
 -------------
-This application requires a running instance of MongoDB. For details on installing and setting up MongoDB on your system see http://www.mongodb.org/. This application also requires the tweepy Twitter API module to be installed with your python distribution.
+This application requires a running instance of MongoDB. For details on installing and setting up MongoDB on your system see http://www.mongodb.org/. This application also requires the pyMongo and tweepy modules to be installed with your python distribution.
 
 Configuration
 --------------
-
 This application loads the settings required to run from a file called config.json stored in the parent directory. The settings in this file can be configured to match your requirements.
 
 ```json
